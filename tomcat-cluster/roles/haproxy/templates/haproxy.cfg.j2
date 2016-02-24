@@ -38,8 +38,8 @@ backend app
     {% endif %}
     {% for host in groups['tomcat-servers'] %}
         {% if affinity_enabled  %}
-            server {{ host }} {{ host }}:{{ httpd_port }} check cookie s{{ loop.index }}
+            server {{ host }} {{ hostvars[host]['ansible_' + iface].ipv4.address }}:{{ httpd_port }} check cookie s{{ loop.index }}
         {% else %}
-            server {{ host }} {{ host }}:{{ httpd_port }} check
+            server {{ host }} {{ hostvars[host]['ansible_' + iface].ipv4.address }}:{{ httpd_port }} check
         {% endif %}
     {% endfor %}
