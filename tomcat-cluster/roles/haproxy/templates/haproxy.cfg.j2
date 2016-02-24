@@ -33,6 +33,13 @@ frontend http-in
 
 backend app
     balance     {{ balance }}
+    {% if affinity_enabled  %}
+        cookie SERVERID insert indirect nocache
+    {% endif %}
     {% for host in groups['tomcat-servers'] %}
-        server {{ host }} {{ host }}:{{ httpd_port }} check
+        {% if affinity_enabled  %}
+            server {{ host }} {{ host }}:{{ httpd_port }} check cookie s{{ loop.index }}
+        {% else %}
+            server {{ host }} {{ host }}:{{ httpd_port }} check
+        {% endif %}
     {% endfor %}

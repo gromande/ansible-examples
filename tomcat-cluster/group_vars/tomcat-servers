@@ -10,4 +10,5 @@ admin_password: adminsecret
 
 # Here are the variables related to the webapp
 
+war_file: snoop.war
 app_context: snoop
